@@ -1,0 +1,52 @@
+﻿    <div class="row">
+            <div class="col">
+                <div class="mb-3">
+                    <label for="amount" class="form-label">Cantidad:</label>
+                    <input type="number" class="form-control" id="amount" @bind="@CryptoDTO.Amount">
+                    </div>
+            </div>
+            <div class="col">
+                <div class="mb-3">
+                    <label for="amount" class="form-label">De:</label>
+                    <input class="form-control" type="text" value="@Crypto.Name @Crypto.Symbol" aria-label="Disabled input example" disabled>
+                    </div>
+            </div>
+            <div class="col">
+                <div class="mb-3">
+                    <label for="amount" class="form-label">A:</label>
+                    <div> 
+                        <select @onchange="async (e) => {Symbol  = e.Value.ToString();
+                                   await CryptoConversionChanged.InvokeAsync(ListCryptos.Find(c => c.Symbol == e.Value.ToString()).Name);
+                                   ErrorMessage = string.Empty;
+                                    }" class="form-select">
+                            <option selected disabled>CryptoMonedas</option>
+                            @foreach(var CryptoCurrency in ListCryptos)
+                            {
+                                @if(CryptoCurrency.Id != Crypto.Id)
+                                {
+                                   <option value="@CryptoCurrency.Symbol">@CryptoCurrency.Name</option>
+                                }
+                            }          
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col">
+                @if(Conversion != null)
+                {
+                    <h3> = $@Conversion.Price.ToString("0.##")</h3>
+                    <small>Fecha de consulta: <strong>@Conversion.LastUpdate.ToString("MM/dd/yyyy HH:mm:ss")</strong></small> 
+                }
+                @if(!string.IsNullOrEmpty(ErrorMessage))
+                {
+                    <h5 class="alert-danger">@ErrorMessage</h5>            
+                }
+    </div>
+        </div>
+        <div class="row mt-3 text-end">
+            <div class="col">
+                <button class="btn btn-info text-light" @onclick="@Convert">Convertir</button>
+            </div>             
+        </div>

@@ -1,0 +1,75 @@
+﻿@page "/"
+
+<PageTitle>Coin Market Cap</PageTitle>
+
+
+<div class="container">
+    <h2 class="text-center my-5">Coin Market Cap</h2>
+    <div class="card">
+        <div class="card-body">
+
+            @if (Cryptos != null)
+            {
+                @if (Cryptos.Count > 0)
+                {
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">Name</th>
+                                <th scope="col">Symbol</th>
+                                <th scope="col">Price</th>
+                                <th scope="col">MarketCap</th>
+                                <th scope="col">LastUpdate</th>
+                                <th scope="col">TotalSupply</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var Crypto in Cryptos)
+                            {
+                                <tr @onclick="@(() => ShowConversion(Crypto))" @onclick:stopPropagation="true">
+                                    <td> @Crypto.Name </td>
+                                    <td> @Crypto.Symbol</td>
+                                    <td> $@Crypto.Price.ToString("0.##")</td>
+                                    <td> $@Crypto.MarketCap.ToString("0.##")</td>
+                                    <td> @Crypto.LastUpdate.ToString("MM/dd/yyyy HH:mm:ss")</td>
+                                    <td> $@Crypto.TotalSupply.ToString("0.##")</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <div>
+                        No hay elementos por mostrar
+                    </div>
+                }
+            }
+            else
+            {
+                <div>
+                    Cargando...
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<footer class="fixed-bottom">
+    <div class="section-info">
+        Abigail Huerta De Los Santos | Desarrolladora Full Stack .NET | <a class="my-link-info" href="https://www.linkedin.com/in/devahuerta/" target="_blanck">LinkedIn</a>
+    </div>
+</footer>
+
+<ModalDialog Show="ShowDialog" OnClose="() => {ShowDialog = false;
+                                                 PoolForUpdates();} ">
+    <Header>
+        <h4>Convertidor de Cryptomoneda </h4>
+    </Header>
+    <Body>
+        <Converter Crypto="DialogCrypto" @bind-CryptoConversion="CryptoConversion" ListCryptos="CrytoSymbols"/>
+    </Body>
+    <Footer>
+        @DialogCrypto.Name A @CryptoConversion
+    </Footer>
+</ModalDialog>

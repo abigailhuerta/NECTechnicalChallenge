@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NEC.Crypto.DTOs\NEC.Crypto.DTOs.csproj" />
+    <ProjectReference Include="..\NEC.Crypto.Entities\NEC.Crypto.Entities.csproj" />
+    <ProjectReference Include="..\NEC.Entities\NEC.Entities.csproj" />
+  </ItemGroup>
+
+</Project>
